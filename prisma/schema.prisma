@@ -1,0 +1,75 @@
+// Prisma schema for AtmosIQ.
+// Run `npx prisma migrate dev` with DATABASE_URL set to create the database.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// A normalized, deduplicated place resolved through the Open-Meteo geocoding API.
+model Location {
+  id          Int      @id @default(autoincrement())
+  name        String
+  region      String?
+  country     String?
+  countryCode String?
+  latitude    Float
+  longitude   Float
+  timezone    String?
+  createdAt   DateTime @default(now())
+
+  requests WeatherRequest[]
+
+  @@unique([latitude, longitude])
+  @@index([name])
+}
+
+/// A user request: a location plus a date range. The API fetches real weather
+/// for the range and stores the returned observations with the request.
+model WeatherRequest {
+  id         Int      @id @default(autoincrement())
+  locationId Int
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
+
+  label      String?
+  notes      String?
+  isFavorite Boolean @default(false)
+  status     String  @default("completed")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  observations WeatherObservation[]
+
+  @@index([locationId])
+  @@index([createdAt])
+}
+
+/// One day of weather inside a request's date range, copied from the provider.
+/// These rows are authoritative snapshots: users may not edit them directly.
+model WeatherObservation {
+  id        Int            @id @default(autoincrement())
+  requestId Int
+  request   WeatherRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  observationDate DateTime @db.Date
+  temperatureMin  Float?
+  temperatureMax  Float?
+  temperatureMean Float?
+  precipitation   Float?
+  humidity        Float?
+  windSpeed       Float?
+  weatherCode     Int?
+  source          String   @default("open-meteo")
+  retrievedAt     DateTime @default(now())
+
+  @@unique([requestId, observationDate])
+  @@index([requestId])
+}
