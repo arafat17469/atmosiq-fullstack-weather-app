@@ -93,7 +93,7 @@ export default function ComparePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-xl font-bold text-slate-900">Compare two places</h1>
         <UnitToggle units={units} onChange={handleUnitsChange} />
       </div>
@@ -120,7 +120,8 @@ export default function ComparePage() {
 
       {a.data && b.data && (
         <div className="card">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto" role="region" aria-label="Weather comparison" tabIndex={0}>
+          <table className="w-full min-w-[420px] text-sm">
             <thead>
               <tr className="border-b text-left text-xs text-slate-500">
                 <th className="py-2 pr-2">Metric</th>
@@ -138,6 +139,7 @@ export default function ComparePage() {
               ))}
             </tbody>
           </table>
+          </div>
           <div className="mt-3 space-y-1 text-sm text-slate-700">
             {warmer && <p>{warmer}</p>}
             {wetter && <p>{wetter}</p>}

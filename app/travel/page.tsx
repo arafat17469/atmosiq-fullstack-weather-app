@@ -99,7 +99,7 @@ export default function TravelPage() {
             </p>
           )}
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <span className="label">Trip start</span>
             <input className="input" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
@@ -110,7 +110,7 @@ export default function TravelPage() {
           </div>
         </div>
         <p className="text-xs text-slate-500">
-          Dates must fall between the past 92 days and the next 16 days.
+          Choose dates within the past 92 days or the 16-day forecast including today.
         </p>
         {error && <ErrorBox message={error} />}
         <button type="submit" className="btn" disabled={loading}>

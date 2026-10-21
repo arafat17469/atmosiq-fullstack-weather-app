@@ -143,7 +143,7 @@ export default function RequestDetail({ id, onBack, onChanged }: RequestDetailPr
           </div>
         </div>
         {request.notes && <p className="mt-2 text-sm text-slate-600">{request.notes}</p>}
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           <a
             className="btn-secondary px-3 py-1 text-xs"
             href={`/api/weather/requests/${encodeURIComponent(id)}/export?format=csv`}
@@ -221,7 +221,7 @@ export default function RequestDetail({ id, onBack, onChanged }: RequestDetailPr
           <span className="label">Notes</span>
           <textarea className="input" rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <span className="label">Start date</span>
             <input className="input" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />

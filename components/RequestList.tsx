@@ -81,7 +81,7 @@ export default function RequestList({ onSelect, refreshKey }: RequestListProps) 
   return (
     <div className="space-y-4">
       <div className="card">
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <span className="label">Location</span>
             <input
@@ -108,7 +108,7 @@ export default function RequestList({ onSelect, refreshKey }: RequestListProps) 
             </select>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-4">
+        <div className="mt-3 flex flex-wrap items-center gap-4">
           <label className="flex items-center gap-2 text-sm text-slate-700">
             <input
               type="checkbox"
@@ -144,8 +144,8 @@ export default function RequestList({ onSelect, refreshKey }: RequestListProps) 
       {!loading && items.length > 0 && (
         <div className="space-y-2">
           {items.map((r) => (
-            <div key={r.id} className="card flex items-center justify-between gap-3">
-              <button type="button" className="flex-1 text-left" onClick={() => onSelect(r.id)}>
+            <div key={r.id} className="card flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center">
+              <button type="button" className="min-w-0 flex-1 text-left" onClick={() => onSelect(r.id)}>
                 <div className="font-medium text-slate-900">
                   {r.isFavorite ? "★ " : ""}
                   {r.label || "Untitled request"}
@@ -155,7 +155,7 @@ export default function RequestList({ onSelect, refreshKey }: RequestListProps) 
                   {r.location.country ? `, ${r.location.country}` : ""} · {shortDate(r.startDate)} to {shortDate(r.endDate)}
                 </div>
               </button>
-              <div className="flex shrink-0 items-center gap-2">
+              <div className="flex flex-wrap shrink-0 items-center gap-2">
                 <a
                   className="btn-secondary px-3 py-1 text-xs"
                   href={`/api/weather/requests/${encodeURIComponent(r.id)}/export?format=csv`}
@@ -183,7 +183,7 @@ export default function RequestList({ onSelect, refreshKey }: RequestListProps) 
       )}
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
           <span className="text-slate-500">
             Page {page} of {totalPages} ({total} requests)
           </span>
