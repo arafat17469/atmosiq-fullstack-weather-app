@@ -64,8 +64,8 @@ describe("validateDateRange", () => {
     if (!check.ok) expect(check.message).toMatch(/start date/i);
   });
 
-  it("rejects a range extending beyond today + 16 days", () => {
-    const check = validateDateRange(daysFromToday(0), daysFromToday(17));
+  it("rejects a range beyond the 16-day window including today", () => {
+    const check = validateDateRange(daysFromToday(0), daysFromToday(16));
     expect(check.ok).toBe(false);
     if (!check.ok) expect(check.message).toMatch(/16/);
   });
@@ -81,7 +81,7 @@ describe("validateDateRange", () => {
   });
 
   it("accepts a valid range inside the supported window", () => {
-    expect(validateDateRange(daysFromToday(-90), daysFromToday(16))).toEqual({ ok: true });
+    expect(validateDateRange(daysFromToday(-90), daysFromToday(15))).toEqual({ ok: true });
     expect(validateDateRange(daysFromToday(-5), daysFromToday(5))).toEqual({ ok: true });
   });
 });

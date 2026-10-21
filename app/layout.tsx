@@ -24,11 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header className="border-b border-slate-200 bg-white">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
             <a href="/" className="text-lg font-bold text-blue-700">
               AtmosIQ
             </a>
-            <nav className="flex gap-4 text-sm">
+            <nav aria-label="Main navigation" className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
               {NAV.map((item) => (
                 <a
                   key={item.href}

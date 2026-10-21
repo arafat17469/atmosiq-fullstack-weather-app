@@ -70,13 +70,14 @@ export default function RequestDetail({ id, onBack, onChanged }: RequestDetailPr
     setSaving(true);
     try {
       const updated = await updateRequest(id, {
-        label: label.trim() || undefined,
-        notes: notes.trim() || undefined,
+        label: label.trim() || null,
+        notes: notes.trim() || null,
         startDate,
         endDate,
         isFavorite,
       });
       setRequest(updated);
+      await load();
       onChanged();
     } catch (err) {
       setSaveError(err instanceof ApiError ? err.message : "Could not save changes.");

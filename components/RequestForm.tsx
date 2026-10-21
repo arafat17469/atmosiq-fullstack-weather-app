@@ -30,6 +30,7 @@ export default function RequestForm({ onCreated }: RequestFormProps) {
   const validate = (): string | null => {
     if (mode === "search" && !location) return "Please pick a location from the search results.";
     if (mode === "coords") {
+      if (!lat.trim() || !lon.trim()) return "Please enter both latitude and longitude.";
       const la = Number(lat);
       const lo = Number(lon);
       if (!Number.isFinite(la) || la < -90 || la > 90) return "Latitude must be between -90 and 90.";
@@ -161,7 +162,7 @@ export default function RequestForm({ onCreated }: RequestFormProps) {
         </div>
       </div>
       <p className="text-xs text-slate-500">
-        Dates must fall between the past 92 days and the next 16 days.
+        Choose dates within the past 92 days or the 16-day forecast including today.
       </p>
 
       <div>

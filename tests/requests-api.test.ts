@@ -23,7 +23,7 @@ import { prisma } from "../lib/prisma";
 const LIVE_DATABASE_URL =
   process.env.SKIP_DB === "1"
     ? undefined
-    : process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("localhost")
+    : process.env.DATABASE_URL
       ? process.env.DATABASE_URL
       : undefined;
 

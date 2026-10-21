@@ -55,7 +55,7 @@ function addDays(date: string, days: number): string {
 
 export type DateRangeCheck = { ok: true } | { ok: false; message: string };
 
-// Open-Meteo archive covers the past 92 days and forecasts 16 days ahead.
+// This app supports 92 past days and 16 forecast days including today.
 export function validateDateRange(start: string, end: string): DateRangeCheck {
   if (!isRealCalendarDate(start) || !isRealCalendarDate(end)) {
     return { ok: false, message: "Dates must be real calendar dates in YYYY-MM-DD format." };
@@ -64,11 +64,11 @@ export function validateDateRange(start: string, end: string): DateRangeCheck {
     return { ok: false, message: "Start date must be on or before the end date." };
   }
   const min = addDays(todayUtcString(), -92);
-  const max = addDays(todayUtcString(), 16);
+  const max = addDays(todayUtcString(), 15);
   if (start < min || end > max) {
     return {
       ok: false,
-      message: `Date range must fall between ${min} and ${max} (the past 92 days to the next 16 days).`,
+      message: `Date range must fall between ${min} and ${max} (92 past days and 16 forecast days including today).`,
     };
   }
   return { ok: true };

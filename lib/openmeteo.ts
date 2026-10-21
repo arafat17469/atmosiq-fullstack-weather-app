@@ -343,7 +343,7 @@ export async function getDateRangeWeather(
   }
   const today = todayUtc();
   const pastDays = Math.min(Math.max(diffDays(startDate, today), 0), 92);
-  const forecastDays = Math.min(Math.max(diffDays(today, endDate), 1), 16);
+  const forecastDays = Math.min(Math.max(diffDays(today, endDate) + 1, 1), 16);
 
   const params = new URLSearchParams({
     latitude: String(lat),

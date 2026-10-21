@@ -26,9 +26,10 @@ This project covers both parts of the PM Accelerator technical assessment:
 
 ## Key features
 
-- **Location search:** city, postal code, landmark, or raw latitude/longitude, powered by
+- **Location search:** city or postal code where supported by the provider, powered by
   the Open-Meteo geocoding API with autocomplete suggestions and disambiguation
   (name, region, country shown for each result).
+  Saved requests also accept raw latitude/longitude. Landmark coverage is not guaranteed.
 - **Current weather dashboard:** temperature, feels-like, humidity, wind speed and
   direction, precipitation, pressure, cloud cover, visibility, UV index, sunrise/sunset,
   with Celsius/Fahrenheit toggle.
@@ -157,7 +158,7 @@ npm run build      # production build
 POST/GET/PATCH/DELETE and export. They need a live PostgreSQL behind `DATABASE_URL`.
 This VM had no Postgres and no Docker, so those 12 tests skip here (and document that
 they were not run). Set a live `DATABASE_URL` to run them; use `SKIP_DB=1` to force a
-skip. All 52 unit tests run and pass with no database.
+skip. All 53 unit tests run and pass with no database (verified October 21, 2026).
 
 ## API documentation
 
@@ -177,7 +178,7 @@ Base URL: `http://localhost:3000`
 | DELETE | `/api/weather/requests/:id` | Delete a request (observations cascade). |
 | GET | `/api/weather/requests/:id/export?format=csv\|json` | Download the request as CSV or JSON. |
 
-Date ranges are limited to the past 92 days through the next 16 days (the Open-Meteo
+Date ranges are limited to the past 92 days through today + 15 days (16 forecast days including today, the Open-Meteo
 archive/forecast window). Common error codes: `validation_error` (400), `not_found`
 (404), `weather_provider_error` (502), `rate_limited` (429), `internal_error` (500).
 
@@ -228,7 +229,26 @@ curl -o request-1.csv "http://localhost:3000/api/weather/requests/1/export?forma
 4. Deploy. Run `npx prisma migrate deploy` against the production database once
    (from your machine or a CI step) before first use.
 
-The app has not been deployed yet; deployment is pending the assessment submission.
+`npm run build` generates Prisma Client before building Next.js, including when Vercel
+reuses cached dependencies. `@prisma/client` is a runtime dependency. Apply the committed
+migration with `npm run db:deploy`; do not use `migrate dev` on the production database.
+The default Vercel build command is `npm run build`. A successful build alone does not
+verify database connectivity: test saved requests and exports after configuring the database.
+
+## Responsive design
+
+Tailwind breakpoint utilities switch grids and controls between phone and desktop layouts.
+Navigation wraps on small screens, content uses a centered maximum width, charts resize
+with their containers, and observation tables scroll horizontally when space is limited.
+
+## Submission
+
+Public source: https://github.com/arafat17469/atmosiq-fullstack-weather-app
+
+Submit as **Full Stack: Tech Assessments #1 and #2** once the hosted database and live
+CRUD checks are complete. `package.json` and `package-lock.json` specify installable
+dependencies. See [the demo script](docs/demo-script.md) and
+[submission checklist](docs/submission-checklist.md) for the required recording and form.
 
 ## Known limitations
 
@@ -239,7 +259,7 @@ The app has not been deployed yet; deployment is pending the assessment submissi
   poorly, and the API has its own fair-use limits.
 - Rate limiting is in-memory per process, so it resets on redeploy and does not share
   state across instances.
-- Date ranges are bounded by the Open-Meteo window (past 92 days to next 16 days);
+- Date ranges are bounded by the Open-Meteo window (past 92 days through today + 15 days);
   requests outside it are rejected with a clear message.
 - No authentication layer yet; the requests API is open to anyone with the URL.
 
@@ -254,4 +274,4 @@ The app has not been deployed yet; deployment is pending the assessment submissi
 
 ## License
 
-Built as a technical assessment submission by Arafat Rahman.
+MIT — see [LICENSE](LICENSE). Built by Arafat Rahman.

@@ -44,11 +44,12 @@ export default function AboutPage() {
         <h2 className="text-base font-semibold text-slate-800">Assessment</h2>
         <p className="mt-2 text-sm text-slate-700">
           Built for the AI Engineer Internship Technical Assessment at PM Accelerator. PM
-          Accelerator (Product Manager Accelerator) runs product management training and the AI
-          Engineer Internship program.{" "}
+          Accelerator (Product Manager Accelerator) supports people developing product management
+          careers, from entry-level roles to product leadership. Its programs include practical
+          AI product development, interview preparation, and leadership training.{" "}
           <a
             className="text-blue-700 underline"
-            href="https://www.linkedin.com/company/product-manager-accelerator/"
+            href="https://www.linkedin.com/school/pmaccelerator/"
             target="_blank"
             rel="noreferrer"
           >

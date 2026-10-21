@@ -1,5 +1,26 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import * as openmeteo from "../lib/openmeteo";
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
+describe("date-range weather", () => {
+  it("requests and returns the inclusive last forecast day", async () => {
+    const day = (offset: number) => new Date(Date.now() + offset * 86_400_000).toISOString().slice(0, 10);
+    const fetchMock = vi.fn(async (url: string) => {
+      const count = Number(new URL(url).searchParams.get("forecast_days"));
+      return { ok: true, json: async () => ({ daily: {
+        time: Array.from({ length: count }, (_, i) => day(i)),
+        temperature_2m_min: Array(count).fill(20),
+        temperature_2m_max: Array(count).fill(30),
+      } }) };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const result = await openmeteo.getDateRangeWeather(23.81, 90.41, day(1), day(3));
+    expect(result.map((d) => d.date)).toEqual([day(1), day(2), day(3)]);
+  });
+});
 
 // NOTE: the guard helpers (asNumber, asRecord, asNumberArray, ...) and the
 // parse helpers in lib/openmeteo.ts are module-private, so they cannot be unit

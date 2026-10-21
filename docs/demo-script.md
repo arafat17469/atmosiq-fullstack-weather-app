@@ -1,4 +1,4 @@
-# AtmosIQ demo script (about 90 seconds)
+# AtmosIQ demo script (about 110 seconds)
 
 Record the app running locally (`npm run dev`, http://localhost:3000). Keep the
 narration short and natural; one sentence per screen.
@@ -46,6 +46,21 @@ like carrying an umbrella when rain is likely. It is simple fixed thresholds, no
 an AI prediction, and the page says so."
 
 ## Notes for the recording
+
+## 1:20 - 1:50 — Code, validation, and assessment scope
+
+**On screen:** Show `prisma/schema.prisma` (the three related tables),
+`app/api/weather/requests/route.ts` (validated input and transactional storage),
+and `app/api/weather/requests/[id]/export/route.ts` (CSV/JSON output).
+Return to the app, briefly demonstrate an invalid date range, and show About.
+
+**Say:** "The backend uses Zod to validate inputs and Prisma with PostgreSQL to
+persist locations, requests, and observations. These routes implement CRUD and
+CSV/JSON export. Invalid ranges produce a clear error. I am Arafat Rahman, and
+this submission covers both the frontend and backend assessments."
+
+Only describe persistence as verified after testing against a real database.
+Record the actual app and code; this script is not a substitute for the required video.
 
 - Use a clean browser profile; the app needs no login.
 - If geolocation is shown, expect the permission prompt; the app handles denial
