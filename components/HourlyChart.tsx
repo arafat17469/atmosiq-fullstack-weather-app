@@ -55,11 +55,12 @@ export default function HourlyChart({ hourly, units }: HourlyChartProps) {
       <div style={{ width: "100%", height: 280 }}>
         <ResponsiveContainer>
           <LineChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="label" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
-            <YAxis yAxisId="temp" tick={{ fontSize: 11 }} unit={tempUnit} />
-            <YAxis yAxisId="rain" orientation="right" tick={{ fontSize: 11 }} unit="%" domain={[0, 100]} />
+            <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 3" />
+            <XAxis stroke="var(--chart-text)" dataKey="label" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
+            <YAxis stroke="var(--chart-text)" yAxisId="temp" tick={{ fontSize: 11 }} unit={tempUnit} />
+            <YAxis stroke="var(--chart-text)" yAxisId="rain" orientation="right" tick={{ fontSize: 11 }} unit="%" domain={[0, 100]} />
             <Tooltip
+              contentStyle={{ backgroundColor: "var(--chart-tooltip)", borderColor: "var(--chart-grid)", color: "var(--chart-text)" }}
               formatter={(value: unknown, name: string) => {
                 const v = typeof value === "number" ? value : Number(value);
                 if (name === "temperature") return [`${v.toFixed(1)}${tempUnit}`, "Temperature"];
