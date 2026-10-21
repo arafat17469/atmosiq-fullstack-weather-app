@@ -53,16 +53,7 @@ export default function RootLayout({
             >
               Arafat Rahman
             </a>{" "}
-            · AI Engineer Internship Technical Assessment · PM Accelerator ·
-            Weather data by{" "}
-            <a
-              className="text-blue-700 underline"
-              href="https://open-meteo.com/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open-Meteo
-            </a>
+            · 2026
           </div>
         </footer>
       </body>
